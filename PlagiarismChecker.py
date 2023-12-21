@@ -1,4 +1,4 @@
-import CountingBloomFilter
+from CountingBloomFilter import CountingBloomFilter
 class RollingHash:
     """
     Implementation of a rolling hash for efficient text hashing,
