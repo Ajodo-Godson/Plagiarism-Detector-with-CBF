@@ -1,4 +1,5 @@
 from CountingBloomFilter import CountingBloomFilter
+import re
 class RollingHash:
     """
     Implementation of a rolling hash for efficient text hashing,
@@ -108,54 +109,29 @@ def plagiarism_check_complex(version1, version2, num_items, fpr, window_size=2):
     return plagiarism_score
 
 
-url_version_1 = "https://bit.ly/39MurYb"
-url_version_2 = "https://bit.ly/3we1QCp"
-url_version_3 = "https://bit.ly/3vUecRn"
-from requests import get
-
-
-def get_txt_into_list_of_words(url):
-    """Cleans the text data
-    Input
-    ----------
-    url : string
-    The URL for the txt file.
-    Returns
-    -------
-    data_just_words_lower_case: list
-    List of "cleaned-up" words sorted by the order they appear in the original file.
-    """
+def clean_and_split_text(text):
+    """Cleans the input text and splits it into a list of words."""
     bad_chars = [";", ",", ".", "?", "!", "_", "[", "]", "(", ")", "*"]
-    data = get(url).text
-    data = "".join(c for c in data if c not in bad_chars)
-    data_without_newlines = "".join(
-        c if (c not in ["\n", "\r", "\t"]) else " " for c in data
-    )
-    data_just_words = [word for word in data_without_newlines.split(" ") if word != ""]
-    data_just_words_lower_case = [word.lower() for word in data_just_words]
-    return data_just_words_lower_case
+    text = "".join(c for c in text if c not in bad_chars)
+    text_without_newlines = " ".join(text.splitlines())
+    return [word.lower() for word in text_without_newlines.split() if word]
 
+def main():
+    print("Plagiarism Checker")
+    text_version_1 = input("Enter the first text: ")
+    text_version_2 = input("Enter the second text: ")
 
-version_1 = get_txt_into_list_of_words(url_version_1)
-version_2 = get_txt_into_list_of_words(url_version_2)
-version_3 = get_txt_into_list_of_words(url_version_3)
-num_items = 10000
-false_positive_rate = 0.01
-# Example usage
-complex_score_1_2 = plagiarism_check_complex(version_1, version_2, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 1 and 2: {complex_score_1_2}%")
+    # Clean and process the input text
+    version_1 = clean_and_split_text(text_version_1)
+    version_2 = clean_and_split_text(text_version_2)
 
-complex_score_2_3 = plagiarism_check_complex(version_2, version_3, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 2 and 3: {complex_score_2_3}%")
+    # Set parameters for the Counting Bloom Filter
+    num_items = 10000  # Adjust as needed
+    false_positive_rate = 0.01  # Adjust as needed
 
-complex_score_1_3 = plagiarism_check_complex(version_1, version_3, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 1 and 3: {complex_score_1_3}%")
+    # Calculate the plagiarism score
+    score = plagiarism_check_complex(version_1, version_2, num_items, false_positive_rate, window_size=3)
+    print(f"Plagiarism Score between the two texts: {score}%")
 
-complex_score_1_4 = plagiarism_check_complex(version_3, version_2, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 3 and 2: {complex_score_1_4}%")
-
-complex_score_1_5 = plagiarism_check_complex(version_3, version_1, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 3 and 1: {complex_score_1_5}%")
-
-complex_score_1_6 = plagiarism_check_complex(version_2, version_1, num_items, false_positive_rate, window_size=3)
-print(f"Complex Plagiarism Score between Version 2 and 1: {complex_score_1_6}%")
+if __name__ == "__main__":
+    main()
