@@ -25,7 +25,7 @@ class bitarray:
 
 
 class CountingBloomFilter:
-    import bitarray
+    #import bitarray
     """
     Implementation of a Counting Bloom Filter.
     It uses multiple hash functions to map elements to bit positions.
