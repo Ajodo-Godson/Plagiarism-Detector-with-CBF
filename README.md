@@ -34,9 +34,3 @@ from PlagiarismChecker import plagiarism_check_complex
 result = plagiarism_check_complex(text_version_1, text_version_2, num_items, false_positive_rate)
 print(f"Plagiarism Score: {result}%")
 
-Tests
-Run the tests included in the Jupyter Notebook (Plagiarism Checker codes.ipynb) to validate the implementation.
-
-Contributing
-Contributions to improve the project are welcome. Please follow the standard fork, branch, and pull request workflow.
-
