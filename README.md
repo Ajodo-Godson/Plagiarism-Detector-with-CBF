@@ -15,7 +15,6 @@ This project implements a sophisticated plagiarism detection system using a Coun
 - `CountingBloomFilter.py`: Implementation of the custom Counting Bloom Filter and the necessary data structures.
 - `PlagiarismChecker.py`: Core logic for the plagiarism detection, including the rolling hash and complex scoring algorithm.
 - `Plagiarism Checker codes.ipynb`: Jupyter Notebook containing the implementation, test cases, and experimental analysis.
-- `Summary.pdf`: A detailed summary and justification of the methodologies used, including complexity analysis.
 
 ## Installation
 To set up the project, clone the repository and install the necessary dependencies:
